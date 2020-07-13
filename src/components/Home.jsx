@@ -8,9 +8,9 @@ import Gamewon from "./Gamewon";
 
 export default class Home extends React.Component {
   state = {
-    gridM: 10,
-    gridN: 10,
-    mines: 10,
+    gridM: 10, // default value
+    gridN: 10, // default value
+    mines: 10, // default value
     minePositions: {},
     mineArray: [],
     gameOver: false,
@@ -67,7 +67,24 @@ export default class Home extends React.Component {
     return Math.floor(Math.random() * max) + min;
   };
 
+  prepareInitialArray = () => {
+    // Prepare the complete grid with initial values
+    const data = [];
+    for (let i = 0; i < this.state.gridM; i++) {
+      const dataElem = [];
+      for (let j = 0; j < this.state.gridN; j++) {
+        dataElem.push(null);
+      }
+      data.push(dataElem);
+    }
+
+    this.setState({
+      mineArray: data
+    });
+  };
+
   createMines = () => {
+    // Create mines and store the positions
     if (this.state.mines >= this.state.gridM * this.state.gridN) {
       alert("Provide valid mines count");
       return;
@@ -169,21 +186,6 @@ export default class Home extends React.Component {
     });
   };
 
-  prepareInitialArray = () => {
-    const data = [];
-    for (let i = 0; i < this.state.gridM; i++) {
-      const dataElem = [];
-      for (let j = 0; j < this.state.gridN; j++) {
-        dataElem.push(null);
-      }
-      data.push(dataElem);
-    }
-
-    this.setState({
-      mineArray: data
-    });
-  };
-
   checkAndRenderBoxItem = (m, n) => {
     const data = this.state.mineArray;
     const item = data[m][n];
@@ -215,16 +217,19 @@ export default class Home extends React.Component {
   };
 
   startTheInterval = () => {
+    // Start the timer
     this.setState({
       timerCount: this.state.timerCount + 1
     });
   };
 
   stopTheInterval = () => {
+    // Stop the timer
     if (this.state.timerInterval) {
       clearInterval(this.state.timerInterval);
     }
   };
+
   render() {
     return (
       <div className="container">
