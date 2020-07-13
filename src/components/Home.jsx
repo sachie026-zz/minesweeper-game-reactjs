@@ -4,7 +4,7 @@ import Title from "./Title";
 import Footer from "./Footer";
 import Gameover from "./Gameover";
 import Timer from "./Timer";
-import Gamewon from "./Gamewon"
+import Gamewon from "./Gamewon";
 
 export default class Home extends React.Component {
   state = {
@@ -18,7 +18,7 @@ export default class Home extends React.Component {
     totalClicks: 0,
     timerStarted: false,
     timerCount: 0,
-    timerInterval : null,
+    timerInterval: null,
     gameWon: false
   };
 
@@ -38,12 +38,10 @@ export default class Home extends React.Component {
     });
     await this.prepareInitialArray();
     await this.createMines();
-    this.stopTheInterval()
+    this.stopTheInterval();
   };
 
   updateM = value => {
-    console.log(value.target.value);
-    //   alert(JSON.stringify(value))
     this.setState({
       gridM: value.target.value
     });
@@ -56,6 +54,10 @@ export default class Home extends React.Component {
   };
 
   updateMinesCount = value => {
+    if (value > this.state.gridM * this.state.gridN) {
+      alert("Provide valid mines count");
+      return;
+    }
     this.setState({
       mines: value.target.value
     });
@@ -66,10 +68,10 @@ export default class Home extends React.Component {
   };
 
   createMines = () => {
-      if(this.state.mines >= (this.state.gridM * this.state.gridN)){
-          alert("Provide valid mines count")
-          return
-      }
+    if (this.state.mines >= this.state.gridM * this.state.gridN) {
+      alert("Provide valid mines count");
+      return;
+    }
     while (Object.keys(this.state.minePositions).length < this.state.mines) {
       const x = this.generateRandomNumberInRange(0, this.state.gridM);
       const y = this.generateRandomNumberInRange(0, this.state.gridN);
@@ -87,15 +89,13 @@ export default class Home extends React.Component {
         });
       }
     }
-    console.log("Mines : ", this.state.minePositions);
-    console.log("Mines array \n : ", this.state.mineArray);
   };
 
   onBoxClick = async (m, n) => {
     const data = this.state.mineArray;
     if (`${m}${n}` in this.state.minePositions) {
       // mine clicked
-      this.stopTheInterval()
+      this.stopTheInterval();
       this.setState({
         gameOver: true,
         gameStarted: false,
@@ -113,18 +113,18 @@ export default class Home extends React.Component {
         () => this.checkMinesInAdjacent(m, n)
       );
 
-      console.log("inside total :", this.state.totalClicks)
-      if(this.state.totalClicks === (this.state.gridM * this.state.gridN - this.state.mines)){
-        if(!this.state.gameOver && this.state.gameStarted){
-            this.setState({
-                gameWon: true
-            })
-            this.stopTheInterval()
+      if (
+        this.state.totalClicks ===
+        this.state.gridM * this.state.gridN - this.state.mines
+      ) {
+        if (!this.state.gameOver && this.state.gameStarted) {
+          this.setState({
+            gameWon: true
+          });
+          this.stopTheInterval();
         }
       }
     }
-
-    // alert(`m n ${m} ${n}`);
   };
 
   checkMinesInAdjacent = (m, n) => {
@@ -138,7 +138,6 @@ export default class Home extends React.Component {
       for (let j = minY; j <= maxY; j++) {
         if (i === m && j === n) {
         } else {
-          console.log("i j", i, j);
           // Check if index are out of range for both
           if (i < m && i < 0) {
             continue;
@@ -159,7 +158,6 @@ export default class Home extends React.Component {
           if (data[i][j] === "X") {
             adjacentMinesCount += 1;
           }
-          console.log("data i j", i, j, data[i][j], adjacentMinesCount);
         }
       }
     }
@@ -169,37 +167,26 @@ export default class Home extends React.Component {
     this.setState({
       mineArray: data
     });
-
-    console.log("adjacent total :", this.state.totalClicks)
   };
 
   prepareInitialArray = () => {
     const data = [];
-    // const arr = [];
-    // prepare
     for (let i = 0; i < this.state.gridM; i++) {
-      //   const elem = [];
       const dataElem = [];
       for (let j = 0; j < this.state.gridN; j++) {
         dataElem.push(null);
       }
-
-      //   arr.push(elem);
       data.push(dataElem);
     }
 
     this.setState({
       mineArray: data
     });
-    // console.log(this.state.mineArray);
-    // console.log(arr);
   };
 
   checkAndRenderBoxItem = (m, n) => {
-    //   return item ? item  : null
     const data = this.state.mineArray;
     const item = data[m][n];
-    console.log(this.state.gameOver);
     if (item === "X") {
       if (this.state.gameOver) {
         return <div className="mine-clicked-over">X</div>;
@@ -210,31 +197,34 @@ export default class Home extends React.Component {
   };
 
   startTheGame = () => {
-      if(Object.keys(this.state.minePositions).length <= 0){
-          alert("Provide valid mines count")
-          return
-      }
-      if(this.state.timerCount === 0 && Object.keys(this.state.minePositions).length > 0){
-        this.setState({
-            gameStarted: true,
-            gameOver: false,
-            timerStarted: true,
-            timerInterval: setInterval(() => this.startTheInterval(), 1000)
-          });
-      }
+    if (Object.keys(this.state.minePositions).length <= 0) {
+      alert("Provide valid mines count");
+      return;
+    }
+    if (
+      this.state.timerCount === 0 &&
+      Object.keys(this.state.minePositions).length > 0
+    ) {
+      this.setState({
+        gameStarted: true,
+        gameOver: false,
+        timerStarted: true,
+        timerInterval: setInterval(() => this.startTheInterval(), 1000)
+      });
+    }
   };
 
   startTheInterval = () => {
-      this.setState({
-          timerCount: this.state.timerCount + 1
-      })
-  }
+    this.setState({
+      timerCount: this.state.timerCount + 1
+    });
+  };
 
   stopTheInterval = () => {
-    if(this.state.timerInterval){
-        clearInterval(this.state.timerInterval)
-      }    
-  }
+    if (this.state.timerInterval) {
+      clearInterval(this.state.timerInterval);
+    }
+  };
   render() {
     return (
       <div className="container">
