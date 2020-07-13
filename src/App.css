@@ -36,3 +36,137 @@
     transform: rotate(360deg);
   }
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: "100%";
+  width: 100%;
+  /* border: solid; */
+  align-items: center;
+  justify-content: center;
+}
+
+.game-over-label {
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  position: absolute;
+  font-size: 32px;
+}
+
+.timer-label {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 20px;
+  color: #919295;
+}
+
+.title-label {
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 24px;
+  color: #2d8eff;
+}
+
+.header-container {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.input-box {
+  height: 40px;
+  width: 44px;
+  font-size: 12px;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+
+.input-label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.mine-container-disabled {
+  pointer-events: none;
+  border: 0.5px solid #919295;
+  margin-top: 35px;
+}
+
+.mine-container-enabled {
+  border: 0.5px solid #919295;
+  margin-top: 35px;
+  pointer-events: all;
+}
+
+.mine-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mine-box {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  border: solid 0.5px #919295;
+  justify-content: center;
+  align-items: center;
+  background: #e1e2e5;
+}
+
+.mine-box-clicked {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  border: solid 0.5px #919295;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
+
+.mine-clicked-over {
+  display: flex;
+  width: 48px;
+  height: 48px;
+  background-color: #8b0000 !important;
+  color: #f1f2f5;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.start-button, .update-grid-button, .reload-button  {
+  margin-top: 25px;
+  height: 40px;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 14px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.margin-top-0 {
+  margin-top: 0px !important;
+}
+
+.margin-right-20 {
+  margin-right: 20px !important;
+}
+
+.margin-left-20 {
+  margin-left: 20px;
+}
+/* .reload-button {
+  margin-top: 25px;
+  margin-right: 25px;
+  height: 40px;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 14px;
+  padding-right: 20px;
+  padding-left: 20px;
+} */
